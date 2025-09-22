@@ -1,0 +1,215 @@
+<!--
+README: github-pages-ranks-admin.html
+Place this file in your repository (e.g. at docs/index.html or in gh-pages branch) and enable GitHub Pages.
+
+What it does:
+- Shows current rank table (reads a public JSON file: /ranks.json served by GitHub Pages or raw.githubusercontent)
+- Lets an admin add/update/remove a player's rank using a simple form
+- When you press UPDATE it will update the ranks.json file in the repo via the GitHub REST API.
+
+SECURITY NOTE:
+- To write to the repository the script needs a GitHub Personal Access Token (PAT) with "repo" scope.
+- For convenience this script asks the admin to paste a PAT into the browser prompt when they press Update. THIS TOKEN must NOT be stored publicly.
+- A secure alternative is to implement a server-side endpoint (Netlify/Cloudflare Function, GitHub Action) that performs the commit using a secret token. See notes below.
+
+Before using:
+- Replace the OWNER and REPO constants below with your GitHub username and repository name.
+- Ensure ranks.json exists in the repository root (create it with {} if not present).
+- Enable GitHub Pages to serve the repository. The file will be readable at: https://<OWNER>.github.io/<REPO>/ranks.json
+
+-->
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Rank Editor — GitHub Pages</title>
+  <style>
+    body{font-family:system-ui,Segoe UI,Roboto,Arial;margin:24px;background:#f7f7fb;color:#111}
+    h1{font-size:20px}
+    input,button{font-size:14px;padding:8px;margin:4px}
+    table{border-collapse:collapse;width:100%;max-width:720px}
+    td,th{border:1px solid #ddd;padding:8px}
+    textarea{width:100%;height:120px}
+    .note{font-size:13px;color:#444}
+  </style>
+</head>
+<body>
+  <h1>แก้ไขยศ (GitHub Pages)</h1>
+  <p class="note">แบบฟอร์มนี้อ่าน/เขียนไฟล์ <code>ranks.json</code> ในไฟล์ repo ของคุณ. โปรดอ่านข้อควรระวังด้านบนก่อนใช้งาน.</p>
+
+  <div>
+    <label>Player name: <input id="player" placeholder="Player1"></label>
+    <label>Rank (leave empty to remove): <input id="rank" placeholder="Trainee"></label>
+    <button id="updateBtn">Update</button>
+    <button id="reloadBtn">Reload from repo</button>
+  </div>
+
+  <h3>Current table (ranks.json)</h3>
+  <pre id="jsonView">Loading…</pre>
+
+  <h3>Manual edit (JSON)</h3>
+  <textarea id="manual"></textarea>
+  <div>
+    <button id="saveManualBtn">Save manual JSON</button>
+  </div>
+
+  <script>
+  // CONFIG: change these to your repo info
+  const OWNER = 'REPLACE_WITH_OWNER'; // e.g. 'your-github-username'
+  const REPO = 'REPLACE_WITH_REPO';   // e.g. 'my-ranks-repo'
+  const PATH = 'ranks.json';         // path inside repo
+  const BRANCH = 'gh-pages';         // branch that GitHub Pages uses. Use 'main' or 'master' if appropriate
+
+  // Derived raw URL for public reading (no auth)
+  const PUBLIC_JSON_URL = `https://${OWNER}.github.io/${REPO}/${PATH}`; // served by GH Pages
+  // fallback raw.githubusercontent url for reading
+  const RAW_URL = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/${PATH}`;
+
+  const jsonView = document.getElementById('jsonView');
+  const manual = document.getElementById('manual');
+  const playerInput = document.getElementById('player');
+  const rankInput = document.getElementById('rank');
+  const updateBtn = document.getElementById('updateBtn');
+  const reloadBtn = document.getElementById('reloadBtn');
+  const saveManualBtn = document.getElementById('saveManualBtn');
+
+  let current = {}; // object in memory
+  let currentSha = null; // used for GitHub API update (if available)
+
+  async function fetchPublicJson(){
+    // Try Pages first (fast); if fails, fallback to raw.
+    try{
+      const r = await fetch(PUBLIC_JSON_URL + '?cachebuster=' + Date.now());
+      if(!r.ok) throw new Error('Pages URL failed');
+      const j = await r.json();
+      return j;
+    }catch(e){
+      // fallback
+      try{
+        const r2 = await fetch(RAW_URL + '?cachebuster=' + Date.now());
+        if(!r2.ok) throw new Error('Raw URL failed');
+        const j2 = await r2.json();
+        return j2;
+      }catch(e2){
+        throw new Error('Failed to fetch public JSON from Pages or raw.githubusercontent');
+      }
+    }
+  }
+
+  async function showCurrent(){
+    try{
+      const j = await fetchPublicJson();
+      current = j;
+      jsonView.textContent = JSON.stringify(current, null, 2);
+      manual.value = JSON.stringify(current, null, 2);
+    }catch(err){
+      jsonView.textContent = 'Error: ' + err.message;
+      manual.value = '';
+    }
+  }
+
+  // --- GitHub API helpers (for writing) ---
+  async function getFileSha(token){
+    const url = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${PATH}?ref=${BRANCH}`;
+    const res = await fetch(url, {headers:{Authorization:'token '+token, Accept:'application/vnd.github.v3+json'}});
+    if(!res.ok) throw new Error('Failed to get file metadata: '+res.statusText);
+    const data = await res.json();
+    return data.sha;
+  }
+
+  async function putFile(token, contentObj, message){
+    // contentObj: JS object to be saved as JSON
+    const url = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${PATH}`;
+    const bodyObj = {
+      message: message || 'Update ranks.json via web form',
+      content: btoa(unescape(encodeURIComponent(JSON.stringify(contentObj, null, 2)))), // base64
+      branch: BRANCH
+    };
+
+    // include sha if file exists
+    try{
+      const sha = await getFileSha(token);
+      bodyObj.sha = sha;
+    }catch(e){
+      // file might not exist yet; skip sha
+    }
+
+    const res = await fetch(url, {
+      method: 'PUT',
+      headers:{
+        Authorization: 'token '+token,
+        Accept: 'application/vnd.github.v3+json',
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify(bodyObj)
+    });
+
+    if(!res.ok){
+      const txt = await res.text();
+      throw new Error('GitHub API failed: ' + res.status + ' ' + txt);
+    }
+    return await res.json();
+  }
+
+  // UI actions
+  updateBtn.addEventListener('click', async ()=>{
+    const player = playerInput.value.trim();
+    const rank = rankInput.value.trim();
+    if(player === ''){ alert('กรุณากรอกชื่อผู้เล่น'); return; }
+
+    // make a shallow clone of current
+    const newObj = Object.assign({}, current);
+    if(rank === ''){
+      delete newObj[player];
+    } else {
+      newObj[player] = rank;
+    }
+
+    // Ask for token (convenience). A more secure flow would be server-side.
+    const token = prompt('Paste a GitHub Personal Access Token (PAT) with repo scope. It will NOT be stored.');
+    if(!token){ alert('Operation cancelled — token required to write.'); return; }
+
+    try{
+      updateBtn.disabled = true;
+      updateBtn.textContent = 'Updating...';
+      await putFile(token, newObj, `Update rank for ${player}`);
+      alert('Updated successfully. Reloading view (may take a few seconds to propagate to Pages).');
+      await showCurrent();
+    }catch(err){
+      alert('Error updating file: ' + err.message);
+    }finally{
+      updateBtn.disabled = false;
+      updateBtn.textContent = 'Update';
+    }
+  });
+
+  reloadBtn.addEventListener('click', ()=> showCurrent());
+
+  saveManualBtn.addEventListener('click', async ()=>{
+    let parsed;
+    try{ parsed = JSON.parse(manual.value); }catch(e){ alert('Invalid JSON'); return; }
+    const token = prompt('Paste PAT (repo scope) to save manual JSON');
+    if(!token) return;
+    try{
+      saveManualBtn.disabled = true;
+      saveManualBtn.textContent = 'Saving...';
+      await putFile(token, parsed, 'Manual update of ranks.json');
+      alert('Saved.');
+      await showCurrent();
+    }catch(err){ alert('Error: '+err.message); }
+    finally{ saveManualBtn.disabled = false; saveManualBtn.textContent = 'Save manual JSON'; }
+  });
+
+  // Initialize view
+  showCurrent();
+  </script>
+
+  <hr>
+  <p class="note">Alternatives & security suggestions: <ul>
+    <li>Use a server-side endpoint (Netlify/Cloudflare/Firebase) to receive form submissions and perform the GitHub commit using a secret token — keeps token off the client.</li>
+    <li>Use GitHub Actions triggered by issues or pull requests: the admin creates an issue with a specific body and the Action updates ranks.json.</li>
+    <li>Keep the repo private and only run the admin page locally to avoid exposing tokens.</li>
+  </ul></p>
+</body>
+</html>
