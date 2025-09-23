@@ -1,3 +1,111 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>RTP Units Logistics</title>
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Krub:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <h1>Traffic Unit Rank Update System</h1>
+    </div>
+
+    <div class="body">
+      <div>
+        <form id="deptForm" onsubmit="return false">
+          <label>Unit (Required)
+            <input id="unit" placeholder="[RTP] <Name> | <ชื่อ>" autocomplete="off" required>
+          </label>
+
+          <label>Username (optional)
+            <input id="username" placeholder="<Username>" autocomplete="off">
+          </label>
+
+          <label>Unit Rank (Optional)
+            <input id="rank" placeholder="[PayGrade] <Rank> | <ยศ>" autocomplete="off">
+          </label>
+
+          <div class="controls">
+            <button id="applyBtn">Apply</button>
+            <button id="reloadBtn" class="ghost" type="button">Reload</button>
+          </div>
+
+          <p class="small">หมายเหตุ: ต้องใช้ GitHub PAT เพื่อเขียนไฟล์</p>
+        </form>
+
+        <div style="margin-top:12px">
+          <div class="meta">Current ranks.json</div>
+          <pre id="jsonView">Loading…</pre>
+        </div>
+      </div>
+
+      <div>
+        <div class="card-panel">
+          <div class="meta">Manual JSON (แก้ตรงนี้ได้)</div>
+          <textarea id="manual"></textarea>
+          <div class="controls" style="margin-top:8px">
+            <button id="saveManualBtn">Save manual JSON</button>
+            <button id="clearManual" class="ghost" type="button">Clear</button>
+          </div>
+          <div class="small" style="margin-top:8px">คำเตือน: ตรวจสอบ JSON ให้ถูกต้องก่อนบันทึก</div>
+        </div>
+
+        <div class="card-panel" style="margin-top:12px">
+          <div class="meta">Help</div>
+          <div class="small">
+            - Unit ต้องกรอกเสมอ<br>
+            - หากไฟล์เป็นรูปแบบเก่า (username: rank) ระบบจะถามยืนยันก่อนแปลงเป็น department mode<br>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="logo">Rank Editor (Dept)</div>
+      <div class="small">Units Logistics</div>
+    </footer>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <html lang="th">
 <head>
   <meta charset="utf-8" />
@@ -6,7 +114,6 @@
 
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Krub:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
