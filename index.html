@@ -2,9 +2,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Rank Editor — GitHub Pages</title>
+  <title>TU Logistics</title>
 
-  <!-- Fonts & SweetAlert2 -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Krub:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
@@ -13,24 +12,24 @@
 <body>
   <div class="card">
     <div class="header">
-      <h1>แก้ไขยศ (GitHub Pages)</h1>
-      <p>แก้ไขตาราง <code>ranks.json</code> ผ่านหน้าเว็บนี้ — ใช้ SweetAlert2 สำหรับแจ้งเตือน</p>
+      <h1>Traffic Unit Rank Update System</h1>
+      
     </div>
 
     <div class="body">
       <div>
         <form id="editForm" onsubmit="return false">
-          <label>Player name
-            <input id="player" placeholder="Player1" autocomplete="off">
+          <label>Roblox Username
+            <input id="player" placeholder="Roblox" autocomplete="off">
           </label>
-          <label>Rank (ว่าง = ลบออก)
-            <input id="rank" placeholder="Trainee" autocomplete="off">
+          <label>Rank
+            <input id="rank" placeholder="Phase1" autocomplete="off">
           </label>
           <div class="controls">
             <button id="updateBtn">Update</button>
             <button id="reloadBtn" class="ghost" type="button">Reload</button>
           </div>
-          <p class="small">หมายเหตุ: คำสั่งเขียนไฟล์ ต้องใช้ GitHub PAT ที่มี permission เหมาะสม (ดู Help ด้านล่าง)</p>
+          <p class="small">หมายเหตุ: หากไม่ใช่ผ.บ.แล้วพยายามแก้มั่วจะถูกบันทึกและดำเนินการลงทัณฑ์</p>
         </form>
 
         <div style="margin-top:12px;background:transparent;padding:0">
@@ -53,18 +52,18 @@
 
           <div class="card-panel">
             <div class="meta">Help & Security</div>
-            <div class="small">การเขียนไฟล์ต้องใช้ PAT (Personal Access Token). อย่าเก็บ token ในที่สาธารณะ. สำหรับ production ให้พิจารณาใช้ serverless endpoint หรือ GitHub Actions แทน.</div>
+            <div class="small">การเขียนไฟล์ต้องใช้ PAT (Personal Access Token).</div>
           </div>
         </div>
       </div>
     </div>
 
     <footer>
-      <div class="logo">Rank Editor</div>
-      <div class="small">Designed with ♥ — Minimal gradient UI</div>
+      <div class="logo">TU Logistics</div>
+      <div class="small">Last updated 23/09/68</div>
     </footer>
   </div>
 
-  <script src="app.js"></script>
+  <script type="module" src="app.js"></script>
 </body>
 </html>
