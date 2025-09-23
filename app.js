@@ -1,9 +1,11 @@
-const OWNER = 'echofsadness'; 
-const REPO = 'TURanking';   
-const PATH = 'ranks.json';        
-const BRANCH = 'main';       
+const OWNER = 'echofsadness'; // e.g. 'your-github-username'
+const REPO = 'TURanking';   // e.g. 'my-ranks-repo'
+const PATH = 'ranks.json';         // path inside repo
+const BRANCH = 'main';         // branch that GitHub Pages uses. Use 'main' or 'master' if appropriate
 
-const PUBLIC_JSON_URL = `https://${OWNER}.github.io/${REPO}/${PATH}`; 
+// Derived raw URL for public reading (no auth)
+const PUBLIC_JSON_URL = `https://${OWNER}.github.io/${REPO}/${PATH}`; // served by GH Pages
+// fallback raw.githubusercontent url for reading
 const RAW_URL = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/${PATH}`;
 
 const jsonView = document.getElementById('jsonView');
