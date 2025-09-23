@@ -1,1 +1,8 @@
-{}
+{
+  "[RTP] Traffic Unit | กองบังคับการตำรวจจราจร": {
+    "luckythaina2": "[CO] Commanding Officer | ผู้บังคับบัญชากองกำกับการตำรวจจราจร"
+  },
+  "_order": [
+    "[RTP] Traffic Unit | กองบังคับการตำรวจจราจร"
+  ]
+}
