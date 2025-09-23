@@ -1,12 +1,12 @@
 :root{
---bg:#0f1724;
---card:#ffffff;
---muted:#6b6b6b;
---accent1:#ff8a00;
---accent2:#ff3d00;
---glass:rgba(255,255,255,0.06);
---radius:14px;
-font-family: 'Krub', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  --bg:#0f1724;
+  --card:#ffffff;
+  --muted:#6b6b6b;
+  --accent1:#ff8a00;
+  --accent2:#ff3d00;
+  --glass:rgba(255,255,255,0.06);
+  --radius:14px;
+  font-family: 'Krub', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
 }
 html,body{height:100%;margin:0;background:linear-gradient(180deg,#0f1724 0%, #071026 100%);display:flex;align-items:center;justify-content:center;padding:32px}
 .card{width:100%;max-width:920px;background:linear-gradient(135deg,var(--card),#fff);border-radius:var(--radius);box-shadow:0 8px 30px rgba(3,10,18,0.6);overflow:hidden;border:1px solid rgba(255,255,255,0.06)}
