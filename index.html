@@ -1,63 +1,70 @@
 <html lang="th">
-<div class="header">
-<h1>แก้ไขยศ (GitHub Pages)</h1>
-<p>แก้ไขตาราง <code>ranks.json</code> ผ่านหน้าเว็บนี้ — ใช้ SweetAlert2 สำหรับแจ้งเตือน</p>
-</div>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Rank Editor — GitHub Pages</title>
 
+  <!-- Fonts & SweetAlert2 -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Krub:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <h1>แก้ไขยศ (GitHub Pages)</h1>
+      <p>แก้ไขตาราง <code>ranks.json</code> ผ่านหน้าเว็บนี้ — ใช้ SweetAlert2 สำหรับแจ้งเตือน</p>
+    </div>
 
-<div class="body">
-<div>
-<form id="editForm" onsubmit="return false">
-<label>Player name
-<input id="player" placeholder="Player1" autocomplete="off">
-</label>
-<label>Rank (ว่าง = ลบออก)
-<input id="rank" placeholder="Trainee" autocomplete="off">
-</label>
-<div class="controls">
-<button id="updateBtn">Update</button>
-<button id="reloadBtn" class="ghost" type="button">Reload</button>
-</div>
-<p class="small">หมายเหตุ: คำสั่งเขียนไฟล์ ต้องใช้ GitHub PAT ที่มี permission เหมาะสม (ดู Help ด้านล่าง)</p>
-</form>
+    <div class="body">
+      <div>
+        <form id="editForm" onsubmit="return false">
+          <label>Player name
+            <input id="player" placeholder="Player1" autocomplete="off">
+          </label>
+          <label>Rank (ว่าง = ลบออก)
+            <input id="rank" placeholder="Trainee" autocomplete="off">
+          </label>
+          <div class="controls">
+            <button id="updateBtn">Update</button>
+            <button id="reloadBtn" class="ghost" type="button">Reload</button>
+          </div>
+          <p class="small">หมายเหตุ: คำสั่งเขียนไฟล์ ต้องใช้ GitHub PAT ที่มี permission เหมาะสม (ดู Help ด้านล่าง)</p>
+        </form>
 
+        <div style="margin-top:12px;background:transparent;padding:0">
+          <div class="meta">Current JSON (อ่านจาก Pages/raw)</div>
+          <pre id="jsonView">Loading…</pre>
+        </div>
+      </div>
 
-<div style="margin-top:12px;background:transparent;padding:0">
-<div class="meta">Current JSON (อ่านจาก Pages/raw)</div>
-<pre id="jsonView">Loading…</pre>
-</div>
-</div>
+      <div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div class="card-panel">
+            <div class="meta">Manual edit (JSON)</div>
+            <textarea id="manual"></textarea>
+            <div class="controls" style="margin-top:8px">
+              <button id="saveManualBtn">Save manual JSON</button>
+              <button id="clearManual" class="ghost" type="button">Clear</button>
+            </div>
+            <div class="small" style="margin-top:8px">คำเตือน: ตรวจสอบ JSON ให้ถูกต้องก่อนบันทึก</div>
+          </div>
 
+          <div class="card-panel">
+            <div class="meta">Help & Security</div>
+            <div class="small">การเขียนไฟล์ต้องใช้ PAT (Personal Access Token). อย่าเก็บ token ในที่สาธารณะ. สำหรับ production ให้พิจารณาใช้ serverless endpoint หรือ GitHub Actions แทน.</div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<div>
-<div style="display:flex;flex-direction:column;gap:8px">
-<div class="card-panel">
-<div class="meta">Manual edit (JSON)</div>
-<textarea id="manual"></textarea>
-<div class="controls" style="margin-top:8px">
-<button id="saveManualBtn">Save manual JSON</button>
-<button id="clearManual" class="ghost" type="button">Clear</button>
-</div>
-<div class="small" style="margin-top:8px">คำเตือน: ตรวจสอบ JSON ให้ถูกต้องก่อนบันทึก</div>
-</div>
+    <footer>
+      <div class="logo">Rank Editor</div>
+      <div class="small">Designed with ♥ — Minimal gradient UI</div>
+    </footer>
+  </div>
 
-
-<div class="card-panel">
-<div class="meta">Help & Security</div>
-<div class="small">การเขียนไฟล์ต้องใช้ PAT (Personal Access Token). อย่าเก็บ token ในที่สาธารณะ. สำหรับ production ให้พิจารณาใช้ serverless endpoint หรือ GitHub Actions แทน.</div>
-</div>
-</div>
-</div>
-</div>
-
-
-<footer>
-<div class="logo">Rank Editor</div>
-<div class="small">Designed with ♥ — Minimal gradient UI</div>
-</footer>
-</div>
-
-
-<script src="app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
