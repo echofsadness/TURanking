@@ -55,15 +55,13 @@ Before using:
   </div>
 
   <script>
-  // CONFIG: change these to your repo info
-  const OWNER = 'REPLACE_WITH_OWNER'; // e.g. 'your-github-username'
-  const REPO = 'REPLACE_WITH_REPO';   // e.g. 'my-ranks-repo'
+  const OWNER = 'echofsadness'; // e.g. 'your-github-username'
+  const REPO = 'TURanking';   // e.g. 'my-ranks-repo'
   const PATH = 'ranks.json';         // path inside repo
-  const BRANCH = 'gh-pages';         // branch that GitHub Pages uses. Use 'main' or 'master' if appropriate
+  const BRANCH = 'main';         // branch that GitHub Pages uses. Use 'main' or 'master' if appropriate
 
   // Derived raw URL for public reading (no auth)
   const PUBLIC_JSON_URL = `https://${OWNER}.github.io/${REPO}/${PATH}`; // served by GH Pages
-  // fallback raw.githubusercontent url for reading
   const RAW_URL = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/${PATH}`;
 
   const jsonView = document.getElementById('jsonView');
