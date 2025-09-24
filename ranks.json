@@ -1,4 +1,8 @@
 {
+  "_order": [
+    "[RTP] Traffic Unit | กองบังคับการตำรวจจราจร",
+    "[RTP] Security Unit | กองบังคับการความปลอดภัย"
+  ],
   "[RTP] Traffic Unit | กองบังคับการตำรวจจราจร": {
     "_meta": {
       "insignia": "rbxassetid://104252456874747",
@@ -12,7 +16,15 @@
     "ice_thailandfram2": "[FD] Founder | ผู้ก่อตั้ง",
     "Keenjeen12345": "[FD] Co-Founder | รองผู้ก่อตั้ง"
   },
-  "_order": [
-    "[RTP] Traffic Unit | กองบังคับการตำรวจจราจร"
-  ]
+  "[RTP] Security Unit | กองบังคับการความปลอดภัย": {
+    "_meta": {
+      "insignia": "rbxassetid://104252456874747",
+      "bgColor": [
+        80,
+        150,
+        220
+      ]
+    },
+    "SomePlayer": "Commander"
+  }
 }
