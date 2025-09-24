@@ -15,16 +15,5 @@
     "luckythaina2": "[CO] Commanding Officer | ผู้บังคับบัญชากองกำกับการตำรวจจราจร",
     "ice_thailandfram2": "[FD] Founder | ผู้ก่อตั้ง",
     "Keenjeen12345": "[FD] Co-Founder | รองผู้ก่อตั้ง"
-  },
-  "[RTP] Security Unit | กองบังคับการความปลอดภัย": {
-    "_meta": {
-      "insignia": "rbxassetid://104252456874747",
-      "bgColor": [
-        80,
-        150,
-        220
-      ]
-    },
-    "SomePlayer": "Commander"
   }
 }
