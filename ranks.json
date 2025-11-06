@@ -1,18 +1,17 @@
 {
   "_order": [
-    "[RTP] Traffic Unit | กองบังคับการตำรวจจราจร"
+    "[RTA] Provost Marshal General Department | กรมสารวัตรทหารบก"
   ],
-  "[RTP] Traffic Unit | กองบังคับการตำรวจจราจร": {
+  "[RTA] Provost Marshal General Department | กรมสารวัตรทหารบก": {
     "_meta": {
-      "insignia": "rbxassetid://104252456874747",
+      "insignia": "rbxassetid://132897099005146",
       "bgColor": [
-        255,
-        131,
-        29
+        4,
+        11,
+        120
       ]
     },
-    "luckythaina2": "[CO] Commanding Officer | ผู้บังคับบัญชากองกำกับการตำรวจจราจร",
-    "ice_thailandfram2": "[FD] Founder | ผู้ก่อตั้ง",
-    "Jeenjeen5678": "[FD] Co-Founder | รองผู้ก่อตั้ง"
+    "luckythaina2": "[PMG] Provost Marshal General | เจ้ากรมการสารวัตรทหารบก",
+    "Madmax_4071": "[Project Leader | หัวหน้าโครงการ]"
   }
 }
